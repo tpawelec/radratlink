@@ -1,0 +1,35 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.content::after {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    background-color: rgba(0,0,0,0.25);
+}
+
+.content video {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.content__frame {
+    position: relative;
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+}
