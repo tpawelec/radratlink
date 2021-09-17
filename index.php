@@ -27,11 +27,18 @@
             </a>
         </div>
 
-        <div class="content__gallery">
+        <div class="content__gallery" id="galleryContainer">
+            <div class="gallery__images" id="galleryImages">
 
+            </div>
+            <div class="gallery__icons">
+                
+            </div>
         </div>
     </div>
-
-    <script src="js/script.js"></script>
+    <script type="text/javascript">
+        let images = <?php echo json_encode(glob('images/*.*')); ?>;
+    </script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
