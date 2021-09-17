@@ -1,3 +1,20 @@
+// function for fadeout
+function fade(element, display) {
+    element.classList.toggle("scale--on");
+    element.classList.toggle("scale--off")
+    
+    setTimeout(() => {
+        element.classList.toggle("display--hidden");
+
+        if(display === "grid") {
+            element.classList.toggle("display--grid");
+        } else {
+            element.classList.toggle("display--flex")
+        }
+    }, 200);
+    
+}
+
 // link to gallery
 const galleryLink = document.querySelector("#galleryLink");
 
@@ -10,6 +27,9 @@ const galleryContainer = document.querySelector("#galleryContainer");
 // gallery images
 const galleryImages = document.querySelector("#galleryImages");
 
+// close gallery button 
+const closeGallery = document.querySelector("#closeGallery");
+
 //class names
 const frameHidden = "content__frame--hidden";
 const frameOff = "content__frame--off";
@@ -17,23 +37,15 @@ galleryLink.addEventListener("click", (event)=> {
     event.preventDefault();
 
     //frame.classList.remove(frameOn);
-    frame.classList.toggle(frameOff);
-    console.log("click");
+    fade(frame, "flex");
+    fade(galleryContainer, "grid");
 
-    frame.addEventListener("transitionend", (event) => {
-        console.log("ended");
-        setTimeout(() => {
-            frame.classList.toggle(frameHidden);
-        }, 200);
-        
-        galleryContainer.style.transform = "scale(1)";
-        setTimeout(() => {
-            galleryContainer.style.display = "grid";
-        }, 200);
-    })
+});
 
-
-})
+closeGallery.addEventListener("click", () => {
+    fade(galleryContainer, "grid");
+    fade(frame, "flex");
+});
 
 
 
