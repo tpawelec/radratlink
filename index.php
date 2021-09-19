@@ -15,7 +15,7 @@
             <source src="ukladka6D.mp4">
         </video>
 
-        <div class="content__frame display--flex scale--on" id="mainFrame">
+        <div class="content__frame display--hidden scale--off" id="mainFrame">
             <a href="https://www.instagram.com/radratink/" class="frame__link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path
@@ -36,7 +36,7 @@
             </a>
         </div>
 
-        <div class="content__gallery display--hidden scale--off" id="galleryContainer">
+        <div class="content__gallery display--grid scale--on" id="galleryContainer">
             <div class="gallery__images" id="galleryImages">
 
             </div>
@@ -69,7 +69,7 @@
         </div>
     </div>
     <script type="text/javascript">
-    let images = <?php echo json_encode(glob('images/*.*')); ?>;
+    let images = <?php echo json_encode(glob('images/thumbs/*.*')); ?>;
     </script>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
