@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -64,11 +66,16 @@
     background-color: rgba(255,255,255,0.5);
 }
 
-.content__frame a {
-    height: 100px;
-    width: 100px;
+.content__frame .frame__link {
+    height: 200px;
+    width: 200px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
+
 
 .content__frame svg {
     width: 100%;
@@ -77,8 +84,15 @@
     transition: all 0.5s;
 }
 
+
+.content__frame text {
+    text-transform: uppercase;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.2rem;
+}
 .content__frame svg:hover {
     fill: rgba(0,0,0,1);
+    text-decoration: none;
 }
 
 .content__gallery {

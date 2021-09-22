@@ -17,6 +17,9 @@ const imagePopUp = document.querySelector("#imagePopUp");
 // close popup
 const closePopUp = document.querySelector("#closePopUp");
 
+// animation for loading image in popup
+
+const popUpLoading = document.querySelector(".spinner");
 
 //image in popup
 let imgInPopUp;
@@ -117,18 +120,22 @@ imagesLoop.then(() => {
     imageItems.forEach((item) => {
         item.addEventListener("click", () => {
             let imagePath = item.src;
-            imagePath = "images/" + imagePath.split("thumb-").pop();
-            imgInPopUp = document.createElement("img");
-            imgInPopUp.classList.add("imgPopUp");
-            imgInPopUp.src = imagePath;
-            imagePopUp.appendChild(imgInPopUp);
-            console.log(imagePath);
+            
             imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
             setTimeout(() => {
                 imagePopUp.style.display = "flex";
             }, 200);
 
-        })
+            imagePath = "images/" + imagePath.split("thumb-").pop();
+            imgInPopUp = document.createElement("img");
+            imgInPopUp.classList.add("imgPopUp");
+            imgInPopUp.onload = () => {
+                imagePopUp.appendChild(imgInPopUp);
+                popUpLoading.style.display = "none";
+            }
+            imgInPopUp.src = imagePath;
+
+        })    
     })
 });
 
@@ -137,6 +144,7 @@ closePopUp.addEventListener("click", () => {
     imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.0)";
     setTimeout(() => {
         imagePopUp.style.display = "none";
+        popUpLoading.style.display = "block";
     }, 200);
     imgInPopUp.remove();
         
