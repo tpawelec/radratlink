@@ -120,7 +120,7 @@ imagesLoop.then(() => {
     imageItems.forEach((item) => {
         item.addEventListener("click", () => {
             let imagePath = item.src;
-            
+            closeGallery.disabled = true;
             imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
             setTimeout(() => {
                 imagePopUp.style.display = "flex";
@@ -147,6 +147,7 @@ closePopUp.addEventListener("click", () => {
         popUpLoading.style.display = "block";
     }, 200);
     imgInPopUp.remove();
+    closeGallery.disabled = false;
         
 })
 // scrolling
