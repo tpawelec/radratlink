@@ -23,6 +23,63 @@ const popUpLoading = document.querySelector(".spinner");
 
 //image in popup
 let imgInPopUp;
+let prevImg;
+let nextImg;
+
+// link to gallery
+const galleryLink = document.querySelector("#galleryLink");
+
+// frame on main page
+const frame = document.querySelector("#mainFrame");
+
+// gallery container
+const galleryContainer = document.querySelector("#galleryContainer");
+
+// close gallery button 
+const closeGallery = document.querySelector("#closeGallery");
+
+// arrows
+const arrowUp = document.querySelector("#arrowUp");
+const arrowDown = document.querySelector("#arrowDown");
+const arrowLeft = document.querySelector("#buttonLeft");
+const arrowRight = document.querySelector("#buttonRight");
+const arrowS = document.querySelectorAll(".imagePopUp__button--left, .imagePopUp__button--right");
+
+//function for loading image in popup
+function loadImg(img, index) {
+            let imagePath = img.src;
+            closeGallery.disabled = true;
+            imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+            setTimeout(() => {
+                imagePopUp.style.display = "flex";
+            }, 200);
+            imgInPopUp = document.createElement("img");
+            imgInPopUp.classList.add("imgPopUp");
+            imagePath = "images/" + imagePath.split("thumb-").pop();
+            if(index === 0) {
+                arrowRight.style.visibility = "visible";
+                arrowLeft.style.visibility = "hidden";
+                arrowRight.setAttribute('data-index', parseInt(index + 1));
+                
+            } else if (index === imageItems.length - 1) {
+                arrowLeft.style.visibility = "visible";
+                arrowRight.style.visibility = "hidden";
+                arrowLeft.setAttribute('data-index', parseInt(index - 1));
+            } else {
+                arrowLeft.style.visibility = "visible";
+                arrowRight.style.visibility = "visible";
+                arrowRight.setAttribute('data-index', parseInt(index + 1));
+                arrowLeft.setAttribute('data-index', parseInt(index - 1));
+            }
+
+            imgInPopUp.onload = () => {
+                imagePopUp.appendChild(imgInPopUp);
+                popUpLoading.style.display = "none";
+            }
+            imgInPopUp.src = imagePath;
+}
+
+
 // function for fadeout 
 function fadeOut(element, display) {
     element.classList.toggle("scale--on");
@@ -71,21 +128,7 @@ function scrollDiv(direction) {
 
 }
 
-// link to gallery
-const galleryLink = document.querySelector("#galleryLink");
 
-// frame on main page
-const frame = document.querySelector("#mainFrame");
-
-// gallery container
-const galleryContainer = document.querySelector("#galleryContainer");
-
-// close gallery button 
-const closeGallery = document.querySelector("#closeGallery");
-
-// arrows
-const arrowUp = document.querySelector("#arrowUp");
-const arrowDown = document.querySelector("#arrowDown");
 
 galleryLink.addEventListener("click", (event)=> {
     event.preventDefault();
@@ -117,28 +160,28 @@ let imagesLoop = new Promise((resolve, reject) => {
 imagesLoop.then(() => {
     imageItems = document.querySelectorAll(".images__item");
 
-    imageItems.forEach((item) => {
+    imageItems.forEach((item, index) => {
+        
         item.addEventListener("click", () => {
-            let imagePath = item.src;
-            closeGallery.disabled = true;
-            imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
-            setTimeout(() => {
-                imagePopUp.style.display = "flex";
-            }, 200);
-
-            imagePath = "images/" + imagePath.split("thumb-").pop();
-            imgInPopUp = document.createElement("img");
-            imgInPopUp.classList.add("imgPopUp");
-            imgInPopUp.onload = () => {
-                imagePopUp.appendChild(imgInPopUp);
-                popUpLoading.style.display = "none";
-            }
-            imgInPopUp.src = imagePath;
+            galleryContainer.style['pointer-events'] = "none";
+            loadImg(item, index);
+            
 
         })    
     })
 });
 
+// previous, next listeners 
+arrowS.forEach((el) => {
+    el.addEventListener('click', (e) => {
+        imgInPopUp.remove();
+        if(e.target != e.currentTarget) {
+           loadImg(imageItems[e.currentTarget.getAttribute('data-index')], parseInt(e.currentTarget.getAttribute('data-index')));
+        } else {
+            loadImg(imageItems[e.target.getAttribute('data-index')], parseInt(e.target.getAttribute('data-index')));
+        }
+    })
+})
 // close popup
 closePopUp.addEventListener("click", () => {
     imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.0)";
@@ -148,6 +191,7 @@ closePopUp.addEventListener("click", () => {
     }, 200);
     imgInPopUp.remove();
     closeGallery.disabled = false;
+    galleryContainer.style['pointer-events'] = "initial";
         
 })
 // scrolling
