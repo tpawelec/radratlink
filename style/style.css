@@ -304,7 +304,7 @@
     height: 80%;
     width: 80%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
 }
 
 
@@ -345,7 +345,24 @@
         right: 10px;
     }
     
+    .imagePopUp__button--left,
+    .imagePopUp__button--right {
+        opacity: 0.2;
+        transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        -moz-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        -o-transform: scale(0.8);
+}
     
+    .imagePopUp__button--right {
+        top: 50%;
+        right: 3%;
+        width: 50px;
+        height: 50px;
+        visibility: hidden;
+    
+    }
     .imgPopUp {
         width: 80%;
         height: auto;

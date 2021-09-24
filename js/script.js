@@ -12,7 +12,7 @@ let imageItems;
 
 // image popup 
 const imagePopUp = document.querySelector("#imagePopUp");
-
+let imgIndex;
 
 // close popup
 const closePopUp = document.querySelector("#closePopUp");
@@ -47,6 +47,10 @@ const arrowS = document.querySelectorAll(".imagePopUp__button--left, .imagePopUp
 
 //function for loading image in popup
 function loadImg(img, index) {
+    if(imgInPopUp != null) {
+        imgInPopUp.remove();
+    }
+            imgIndex = index;
             let imagePath = img.src;
             closeGallery.disabled = true;
             imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
@@ -174,7 +178,6 @@ imagesLoop.then(() => {
 // previous, next listeners 
 arrowS.forEach((el) => {
     el.addEventListener('click', (e) => {
-        imgInPopUp.remove();
         if(e.target != e.currentTarget) {
            loadImg(imageItems[e.currentTarget.getAttribute('data-index')], parseInt(e.currentTarget.getAttribute('data-index')));
         } else {
@@ -182,6 +185,41 @@ arrowS.forEach((el) => {
         }
     })
 })
+
+let xDown, yDown;
+
+imagePopUp.addEventListener('touchstart', handleTouchStart, false);
+imagePopUp.addEventListener('touchmove', handleTouchMove, false);
+
+function handleTouchStart(e) {
+    const firstTouch = e.touches[0];
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+}
+
+function handleTouchMove(e) {
+    if( !xDown || !yDown) {
+        return;
+    }
+
+    let xUp = e.touches[0].clientX;
+    let yUp = e.touches[0].clientY;
+
+    let xDiff = xDown - xUp;
+    let yDiff = yDown - yUp;
+
+    if(Math.abs(xDiff) > Math.abs(yDiff)) {
+        if(xDiff > 0) {
+            loadImg(imageItems[imgIndex - 1], imgIndex - 1);
+            //right swipe
+        } else {
+            loadImg(imageItems[imgIndex + 1], imgIndex + 1);
+            //left swipe
+        }
+    } else {
+        return;
+    }
+}
 // close popup
 closePopUp.addEventListener("click", () => {
     imagePopUp.style.backgroundColor = "rgba(255, 255, 255, 0.0)";
