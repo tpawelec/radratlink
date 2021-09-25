@@ -45,6 +45,11 @@ const arrowLeft = document.querySelector("#buttonLeft");
 const arrowRight = document.querySelector("#buttonRight");
 const arrowS = document.querySelectorAll(".imagePopUp__button--left, .imagePopUp__button--right");
 
+
+// bool for event listener
+let eventListener;
+
+
 //function for vendors
 function setVendorPrefix(element, property, value) {
     element.style["webkit" + property] = value;
@@ -105,6 +110,11 @@ function loadImg(img, index, swipe) {
 
 //function for swiping left
 function swipeLeft(img, index) {
+    imagePopUp.removeEventListener('touchstart', handleTouchStart, false);
+    imagePopUp.removeEventListener('touchmove', handleTouchMove, false);
+    arrowS.forEach((el) => {
+        el.removeEventListener('click', addButtonsListener, false)
+    });
     setVendorPrefix(imgInPopUp, "transform", "translateX(999px)");
     setTimeout(() => {
         imgInPopUp.remove();
@@ -112,13 +122,23 @@ function swipeLeft(img, index) {
             loadImg(img, index, "left");
             setTimeout(() => {
                 setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
-            }, 200)
+            }, 100)
         }, 100)
+        imagePopUp.addEventListener('touchstart', handleTouchStart, false);
+        imagePopUp.addEventListener('touchmove', handleTouchMove, false);
+        arrowS.forEach((el) => {
+            el.addEventListener('click', addButtonsListener, false)
+        });
     }, 100)
 }
 
 //function for swiping right
 function swipeRight(img, index) {
+    imagePopUp.removeEventListener('touchstart', handleTouchStart, false);
+    imagePopUp.removeEventListener('touchmove', handleTouchMove, false);
+    arrowS.forEach((el) => {
+        el.removeEventListener('click', addButtonsListener, false)
+    });
     setVendorPrefix(imgInPopUp, "transform", "translateX(-999px)");
     setTimeout(() => {
         imgInPopUp.remove();
@@ -126,8 +146,13 @@ function swipeRight(img, index) {
             loadImg(img, index, "right");
             setTimeout(() => {
                 setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
-            }, 200)
+            }, 100)
         }, 100)
+        imagePopUp.addEventListener('touchstart', handleTouchStart, false);
+        imagePopUp.addEventListener('touchmove', handleTouchMove, false);
+        arrowS.forEach((el) => {
+            el.addEventListener('click', addButtonsListener, false)
+        });
     }, 100)
 }
 
@@ -224,7 +249,11 @@ imagesLoop.then(() => {
 
 // previous, next listeners 
 arrowS.forEach((el) => {
-    el.addEventListener('click', (e) => {
+    el.addEventListener('click', addButtonsListener, false)
+})
+
+function addButtonsListener(e) {
+    eventListener = true;
         let newIndex;
             if(e.target != e.currentTarget) {
                 newIndex = parseInt(e.currentTarget.getAttribute('data-index'));
@@ -238,10 +267,7 @@ arrowS.forEach((el) => {
         } else {
             swipeRight(imageItems[newIndex], newIndex);
         }
-        
-    })
-})
-
+}
 let xDown, yDown;
 
 imagePopUp.addEventListener('touchstart', handleTouchStart, false);
@@ -254,6 +280,7 @@ function handleTouchStart(e) {
 }
 
 function handleTouchMove(e) {
+    eventListener = true;
     if( !xDown || !yDown) {
         return;
     }
