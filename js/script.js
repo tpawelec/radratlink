@@ -45,10 +45,21 @@ const arrowLeft = document.querySelector("#buttonLeft");
 const arrowRight = document.querySelector("#buttonRight");
 const arrowS = document.querySelectorAll(".imagePopUp__button--left, .imagePopUp__button--right");
 
+//function for vendors
+function setVendorPrefix(element, property, value) {
+    element.style["webkit" + property] = value;
+    element.style["moz" + property] = value;
+    element.style["ms" + property] = value;
+    element.style["o" + property] = value;
+    element.style[property] = value;
+    //console.log(element + " swipe");
+}
+
 //function for loading image in popup
-function loadImg(img, index) {
+function loadImg(img, index, swipe) {
     if(imgInPopUp != null) {
         imgInPopUp.remove();
+        popUpLoading.style.display = "block";
     }
             imgIndex = index;
             let imagePath = img.src;
@@ -78,11 +89,47 @@ function loadImg(img, index) {
 
             imgInPopUp.onload = () => {
                 imagePopUp.appendChild(imgInPopUp);
+                if(swipe === "left") {
+                    setVendorPrefix(popUpLoading, "transform", "translateX(-999px)");
+                    setVendorPrefix(imgInPopUp, "transform", "translateX(-999px)");
+                    console.log("dsfdf")
+                } else if(swipe === "right") {
+                    setVendorPrefix(popUpLoading, "transform", "translateX(999px)");
+                    setVendorPrefix(imgInPopUp, "transform", "translateX(999px)");
+                }
+                imgInPopUp.style.visibility = "visible";
                 popUpLoading.style.display = "none";
             }
             imgInPopUp.src = imagePath;
 }
 
+//function for swiping left
+function swipeLeft(img, index) {
+    setVendorPrefix(imgInPopUp, "transform", "translateX(999px)");
+    setTimeout(() => {
+        imgInPopUp.remove();
+        setTimeout(() => {
+            loadImg(img, index, "left");
+            setTimeout(() => {
+                setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
+            }, 200)
+        }, 100)
+    }, 100)
+}
+
+//function for swiping right
+function swipeRight(img, index) {
+    setVendorPrefix(imgInPopUp, "transform", "translateX(-999px)");
+    setTimeout(() => {
+        imgInPopUp.remove();
+        setTimeout(() => {
+            loadImg(img, index, "right");
+            setTimeout(() => {
+                setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
+            }, 200)
+        }, 100)
+    }, 100)
+}
 
 // function for fadeout 
 function fadeOut(element, display) {
@@ -178,11 +225,20 @@ imagesLoop.then(() => {
 // previous, next listeners 
 arrowS.forEach((el) => {
     el.addEventListener('click', (e) => {
-        if(e.target != e.currentTarget) {
-           loadImg(imageItems[e.currentTarget.getAttribute('data-index')], parseInt(e.currentTarget.getAttribute('data-index')));
+        let newIndex;
+            if(e.target != e.currentTarget) {
+                newIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+             } else {
+                newIndex = parseInt(e.target.getAttribute('data-index'));
+             }
+        
+
+        if(newIndex < imgIndex) {
+                swipeLeft(imageItems[newIndex], newIndex);
         } else {
-            loadImg(imageItems[e.target.getAttribute('data-index')], parseInt(e.target.getAttribute('data-index')));
+            swipeRight(imageItems[newIndex], newIndex);
         }
+        
     })
 })
 
@@ -210,10 +266,20 @@ function handleTouchMove(e) {
 
     if(Math.abs(xDiff) > Math.abs(yDiff)) {
         if(xDiff > 0) {
-            loadImg(imageItems[imgIndex - 1], imgIndex - 1);
+            if(imgIndex === imageItems.length - 1) {
+                return;
+            } else {
+                //loadImg(imageItems[imgIndex + 1], imgIndex + 1);
+                swipeRight(imageItems[imgIndex + 1], imgIndex + 1)
+            }
             //right swipe
         } else {
-            loadImg(imageItems[imgIndex + 1], imgIndex + 1);
+            if(imgIndex === 0) {
+                return;
+            } else {
+                //loadImg(imageItems[imgIndex - 1], imgIndex - 1);
+                swipeLeft(imageItems[imgIndex - 1], imgIndex - 1);
+            }
             //left swipe
         }
     } else {
