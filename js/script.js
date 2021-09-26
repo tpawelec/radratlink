@@ -49,16 +49,11 @@ const arrowS = document.querySelectorAll(".imagePopUp__button--left, .imagePopUp
 // bool for event listener
 let eventListener;
 
-
-//function for vendors
-function setVendorPrefix(element, property, value) {
-    element.style["webkit" + property] = value;
-    element.style["moz" + property] = value;
-    element.style["ms" + property] = value;
-    element.style["o" + property] = value;
-    element.style[property] = value;
-    //console.log(element + " swipe");
-}
+// load video in bg
+const videoContainer = document.querySelector("#videoBg");
+let videoSource = document.createElement("source");
+videoSource.src = "../ukladka6D2.mp4";
+videoContainer.appendChild(videoSource);
 
 //function for loading image in popup
 function loadImg(img, index, swipe) {
@@ -106,6 +101,7 @@ function loadImg(img, index, swipe) {
                 popUpLoading.style.display = "none";
             }
             imgInPopUp.src = imagePath;
+            imgInPopUp.alt = "Tattoo Photo";
 }
 
 //function for swiping left
@@ -218,7 +214,7 @@ closeGallery.addEventListener("click", () => {
     fadeOut(galleryContainer, "grid");
     setTimeout(fadeIn(frame, "flex"), 200);
 });
-
+let videoTag = document.querySelector("video");
 // adding images to gallery
 let imagesLoop = new Promise((resolve, reject) => {
     images.forEach((el, i) => {
@@ -228,7 +224,9 @@ let imagesLoop = new Promise((resolve, reject) => {
     galleryImages.appendChild(newImg);
 
     if(i === images.length - 1) {
+        imagesLoaded = true;
         resolve();
+        
     }
 });
 });
@@ -246,6 +244,7 @@ imagesLoop.then(() => {
         })    
     })
 });
+
 
 // previous, next listeners 
 arrowS.forEach((el) => {
@@ -360,4 +359,3 @@ galleryImages.addEventListener("scroll", (event) => {
     }
 
 });
-

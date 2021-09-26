@@ -1,3 +1,11 @@
+<!--
+Design and coding: Tomasz Pawelec
+https://tpawelec.github.io
+
+Copyright 2021
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,15 +13,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Patryk Maksymow Tomasz Pawelec">
+    <meta name="description" content="Home page and portfolio for tattoo studio RadRatInk">
+    <meta property="og:image" content="assets/logo/radratlogo.png">
+    <meta property="og:description" content="Home page and portfolio for tattoo studio RadRatInk">
+    <meta property="og:title" content="RadRatInk">
+    <link href='https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&display=swap' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/animation.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>RadRatInk</title>
 </head>
 
 <body>
+
+    <div class="loadingScreen" id="loadingScreen">
+       <img src="assets/logo/radratlogo.png" alt="RadRatInk Logo" class="loadingScreen__logo">
+       <div class="loader">
+  <div class="loader--label">Loading...
+  </div>
+  <div class="loader--background">
+      <div class="loader--bar"> 
+  </div>
+
+</div>
+</div>
+  
+       
+    </div>
+
+</div>
+    </div>
     <div class="content">
-        <video autoplay muted loop playsinline>
-            <source src="ukladka6D2.mp4">
+        <video autoplay muted loop playsinline id="videoBg">
         </video>
 
         <div class="content__frame display--flex scale--on" id="mainFrame">
@@ -132,20 +164,28 @@
 
 
     <script type="text/javascript">
+    
     let images =
         <?php 
-    //$files = glob('images/thumbs/*.*');
-
     $files = glob('images/thumbs/*.*');
-
+    $size = 0;
     usort($files, function($a, $b) {
         return filemtime($a) - filemtime($b);
     });
     echo json_encode($files); 
     
+    foreach($files as $file) {
+        $size += filesize($file);
+    }
     ?>;
+
+    let thumbsSize = 
+    <?php
+        echo $size;
+    ?>
     </script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <script src="js/loading.js"></script>
+    <!--<script type="text/javascript" src="js/script.js"></script>-->
 </body>
 
 </html>
