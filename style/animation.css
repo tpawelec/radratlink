@@ -20,6 +20,7 @@
 
 .loadingScreen__logo {
     margin-top: -20vh;
+    max-width: 100%;
 }
 
 .loader--label {

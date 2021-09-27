@@ -109,19 +109,19 @@
 }
 
 .link__mail--text--name {
+    transform: translateX(36%);
+    -webkit-transform: translateX(36%);
+    -moz-transform: translateX(36%);
+    -ms-transform: translateX(36%);
+    -o-transform: translateX(36%);
+}
+
+.link__mail--text--domain {
     transform: translateX(15%);
     -webkit-transform: translateX(15%);
     -moz-transform: translateX(15%);
     -ms-transform: translateX(15%);
     -o-transform: translateX(15%);
-}
-
-.link__mail--text--domain {
-    transform: translateX(22%);
-    -webkit-transform: translateX(22%);
-    -moz-transform: translateX(22%);
-    -ms-transform: translateX(22%);
-    -o-transform: translateX(22%);
 }
 
 .link__gallery {
@@ -329,7 +329,11 @@
     }
     
     .content__gallery {
-        grid-template-columns: 87% 13%;
+        grid-template-columns: 100% auto;
+    }
+
+    .gallery__icons {
+        display: none;
     }
     
     .icons {

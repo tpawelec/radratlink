@@ -92,10 +92,16 @@ function loadImg(img, index, swipe) {
                 if(swipe === "left") {
                     setVendorPrefix(popUpLoading, "transform", "translateX(-999px)");
                     setVendorPrefix(imgInPopUp, "transform", "translateX(-999px)");
+                    setTimeout(() => {
+                        setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
+                    }, 100)
                     console.log("dsfdf")
                 } else if(swipe === "right") {
                     setVendorPrefix(popUpLoading, "transform", "translateX(999px)");
                     setVendorPrefix(imgInPopUp, "transform", "translateX(999px)");
+                    setTimeout(() => {
+                        setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
+                    }, 100)
                 }
                 imgInPopUp.style.visibility = "visible";
                 popUpLoading.style.display = "none";
@@ -116,9 +122,6 @@ function swipeLeft(img, index) {
         imgInPopUp.remove();
         setTimeout(() => {
             loadImg(img, index, "left");
-            setTimeout(() => {
-                setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
-            }, 100)
         }, 100)
         imagePopUp.addEventListener('touchstart', handleTouchStart, false);
         imagePopUp.addEventListener('touchmove', handleTouchMove, false);
@@ -140,9 +143,6 @@ function swipeRight(img, index) {
         imgInPopUp.remove();
         setTimeout(() => {
             loadImg(img, index, "right");
-            setTimeout(() => {
-                setVendorPrefix(imgInPopUp, "transform", "translateX(0)");
-            }, 100)
         }, 100)
         imagePopUp.addEventListener('touchstart', handleTouchStart, false);
         imagePopUp.addEventListener('touchmove', handleTouchMove, false);

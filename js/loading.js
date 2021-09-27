@@ -54,7 +54,7 @@ function MeasureConnectionSpeed() {
   let cacheBuster = "?nnn=" + startTime;
   download.src = imageAddr + cacheBuster;
   let script = document.createElement("script");
-  script.src = "js/script.js";
+  script.src = "js/script.min.js";
   document.querySelector("body").appendChild(script);
  
 
