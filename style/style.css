@@ -42,6 +42,12 @@
     z-index: 100;
     transition: all .2s ease-out;
     transform-origin: center;
+    border-radius: 40px;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    -ms-border-radius: 40px;
+    -o-border-radius: 40px;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
 }
 
 .display--hidden {
