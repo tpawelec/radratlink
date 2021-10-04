@@ -160,6 +160,12 @@ Copyright 2021
                 <span></span>
             </span>
         </div>
+        <footer class="footer">
+            2021 &copy; 
+            <a href="https://tpawelec.github.io" target="_blank" rel="noopener noreferrer" class="footer__link">
+            Tomasz Pawelec
+            </a>
+        </footer>
     </div>
 
 
